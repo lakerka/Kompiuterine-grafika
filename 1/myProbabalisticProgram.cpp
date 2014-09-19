@@ -1,93 +1,78 @@
-/*
- * SimpleDraw_.c
- *
- */
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <GL/glut.h>	// OpenGL Graphics Utility Library
 
-// These variables control the current mode
-int CurrentMode = 0;
-const int NumModes = 10;
+int currentLevel = 0;
+// max recursion level until restart occurs 
+const int MAX_LEVEL = 7;
 
 // These variables set the dimensions of the rectanglar region we wish to view.
 const double Xmin = -0.5, Xmax = 1.5;
 const double Ymin = -0.5, Ymax = 1.5;
 
-// glutKeyboardFunc is called below to set this function to handle
-//		all "normal" ascii key presses.
-// Only space bar and escape key have an effect.
 void myKeyboardFunc( unsigned char key, int x, int y )
 {
 	switch ( key ) {
-
-	case ' ':									// Space bar
-		// Increment the current mode, and tell operating system screen needs redrawing
-		//CurrentMode = (CurrentMode+1)%NumModes;
-		CurrentMode = (CurrentMode+1);
+    //when space bar is pressed redraw
+	case ' ':
+        currentLevel = (currentLevel+1)%MAX_LEVEL;
 		glutPostRedisplay();
 		break;
-
-	case 27:									// "27" is theEscape key
+    //when esc is presset quit
+    case 27:
 		exit(1);
-
+        break;
 	}
 }
-
-
-/*
- * drawScene() handles the animation and the redrawing of the
- *		graphics window contents.
- */
-void drawFrame(void)
-{
-    glBegin( GL_LINES );
-    glColor3f( 1.0, 1.0, 0.0 );		
-		glVertex2f( 0.0, 0.0 );
-		glVertex2f( 3.0, 0.0 );
-		glVertex2f( 0.0, -3.0 );
-		glVertex2f( 0.0, 3.0 );
-        glEnd();
-}
-
 
 void draw(int num)
 {
     
     static int white = 0;
     GLfloat colors[][3] = { { 1.0f, 1.0f, 1.0f} };
+    //set background color
     glClearColor(colors[white][0], colors[white][1], colors[white][2], 1.0f);
     glutPostRedisplay();
 
  switch(num) {
 
    case 0:
-		//glBegin( GL_TRIANGLES );
 		glBegin( GL_QUADS);
+        ////not symetric
         glVertex3f( 0.5, 1.0, 0.0 );
         glVertex3f( 1.0, 0.0, 0.0 );
         glVertex3f( 0.0, 0.25, 0.0 );		
         glVertex3f( 0.0, 1.0, 0.0 );
+
+        ////square
+        //glVertex2f( 0.0, 0.0 );
+        //glVertex2f( 0.0, 1.0 );
+        //glVertex2f( 1.0, 1.0 );
+        //glVertex2f( 1.0, 0.0 );
 		glEnd();
         break;
+
    default:
         glutPostRedisplay(); 
         glPushMatrix();
         glPushMatrix();
         glPushMatrix();
+        //upper right
         glScalef(-0.25, 0.25, 0.0);
         glTranslatef(-3, 2, 0.0);
         draw(num-1);
+        //upper left
         glPopMatrix();
         //mirror reflection
         glRotatef(180, -1, 1, 0.0);
         glScalef(0.5, 0.5, 0.0);
         glTranslatef(-2, -1, 0.0);
         draw(num-1);
+        //lower left
         glPopMatrix();
         glScalef(0.5, 0.5, 0.0);
         draw(num-1);
+        //lower right
         glPopMatrix();
         glRotatef(270, 0, 0, 1);
         glScalef(0.5, 0.5, 0.5);
@@ -100,26 +85,23 @@ void draw(int num)
 void drawScene(void)
 {
 	// Clear the rendering window
-
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// Set drawing color to white
+	//shape to draw color
 	glColor3f( 0.0, 0.0, 0.0 );		
 
     glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-    draw(CurrentMode);
+    draw(currentLevel);
 
- // Flush the pipeline.  (Not usually necessary.)
+    // Flush the pipeline.  (Not usually necessary.)
 	glFlush();
 }
 
 // Initialize OpenGL's rendering modes
-void initRendering()
-{
+void initRendering() {
 
 	glEnable ( GL_DEPTH_TEST );
-
 }
 
 // Called when the window is resized
@@ -183,13 +165,8 @@ int main( int argc, char** argv )
 
 	// Set up callback functions for key presses
 	glutKeyboardFunc( myKeyboardFunc );			// Handles "normal" ascii symbols
-	// glutSpecialFunc( mySpecialKeyFunc );		// Handles "special" keyboard keys
-
 	// Set up the callback function for resizing windows
 	glutReshapeFunc( resizeWindow );
-
-	// Call this for background processing
-	// glutIdleFunc( myIdleFunction );
 
 	// call this whenever window needs redrawing
 	glutDisplayFunc( drawScene );
@@ -198,8 +175,7 @@ int main( int argc, char** argv )
 	
 	// Start the main loop.  glutMainLoop never returns.
 	glutMainLoop(  );
-
-	return(0);	// This line is never reached.
 }
+
 
 
