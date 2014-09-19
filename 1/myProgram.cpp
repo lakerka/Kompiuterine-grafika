@@ -28,12 +28,6 @@ void myKeyboardFunc( unsigned char key, int x, int y )
 void draw(int num)
 {
     
-    static int white = 0;
-    GLfloat colors[][3] = { { 1.0f, 1.0f, 1.0f} };
-    //set background color
-    glClearColor(colors[white][0], colors[white][1], colors[white][2], 1.0f);
-    glutPostRedisplay();
-
  switch(num) {
 
    case 0:
@@ -89,6 +83,12 @@ void drawScene(void)
 
 	//shape to draw color
 	glColor3f( 0.0, 0.0, 0.0 );		
+
+    static int white = 0;
+    GLfloat colors[][3] = { { 1.0f, 1.0f, 1.0f} };
+    //set background color
+    glClearColor(colors[white][0], colors[white][1], colors[white][2], 1.0f);
+
 
     glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
