@@ -2,24 +2,75 @@
 #include <stdio.h>
 #include <GL/glut.h>	// OpenGL Graphics Utility Library
 
+#define  white 1.0f, 1.0f, 1.0f
+#define  black 0.0f, 0.0f, 0.0f
+
+#define  green 0.0f, 1.0f, 0.0f
+#define  red 1.0f, 0.0f, 0.0f
+#define  blue 0.0f, 0.0f, 1.0f
+
+#define  cayn  0.0f, 1.0f, 1.0f
+#define  magenta 1.0f, 0.0f, 1.0f
+#define  darkPurple 0.5, 0.0f, 1.0f
+#define  grey 0.68, 0.68f, .68f
+
+#define clearColor white
+#define shapeColor grey 
+
+#define upperRightColor red
+#define upperLeftColor blue
+#define lowerLeftColor green
+#define lowerRightColor darkPurple
+
+#define COLOR_SQUARES 1
+
+#define DEFINITE_DRAW_METHOD  0
+#define PROBABALISTIC_DRAW_METHOD 1
+
+int currentDrawMethod = DEFINITE_DRAW_METHOD;
+
 int currentLevel = 0;
 // max recursion level until restart occurs 
-const int MAX_LEVEL = 7;
+const int ITERATION_COUNT = 100;
 
 // These variables set the dimensions of the rectanglar region we wish to view.
 const double Xmin = -0.5, Xmax = 1.5;
 const double Ymin = -0.5, Ymax = 1.5;
 
+bool drawFractal = true;
+
+void clearScreen() {
+    drawFractal = false;
+    currentLevel = 0;
+    glutPostRedisplay();
+}
+
+void setDrawMethod(int method) {
+
+    currentDrawMethod = method;
+    clearScreen();
+}
+
 void myKeyboardFunc( unsigned char key, int x, int y )
 {
 	switch ( key ) {
     //when space bar is pressed redraw
+	case 'd':
+        setDrawMethod(DEFINITE_DRAW_METHOD); 
+        break;
+	case 'p':
+        setDrawMethod(PROBABALISTIC_DRAW_METHOD);
+        break;
 	case ' ':
-        currentLevel = (currentLevel+1)%MAX_LEVEL;
+        currentLevel = (currentLevel+1);
 		glutPostRedisplay();
 		break;
+    //when c is pressed screen is clreared
+    case 'c':
+        clearScreen();
+        break;
     //when esc is presset quit
-    case 27:
+    case 'e':
 		exit(1);
         break;
 	}
@@ -32,17 +83,11 @@ void draw(int num)
 
    case 0:
 		glBegin( GL_QUADS);
-        ////not symetric
+        //not symetric
         glVertex3f( 0.5, 1.0, 0.0 );
         glVertex3f( 1.0, 0.0, 0.0 );
         glVertex3f( 0.0, 0.25, 0.0 );		
         glVertex3f( 0.0, 1.0, 0.0 );
-
-        ////square
-        //glVertex2f( 0.0, 0.0 );
-        //glVertex2f( 0.0, 1.0 );
-        //glVertex2f( 1.0, 1.0 );
-        //glVertex2f( 1.0, 0.0 );
 		glEnd();
         break;
 
@@ -54,6 +99,9 @@ void draw(int num)
         //upper right
         glScalef(-0.25, 0.25, 0.0);
         glTranslatef(-3, 2, 0.0);
+#ifdef COLOR_SQUARES
+        glColor3f(upperRightColor);
+#endif
         draw(num-1);
         //upper left
         glPopMatrix();
@@ -61,41 +109,116 @@ void draw(int num)
         glRotatef(180, -1, 1, 0.0);
         glScalef(0.5, 0.5, 0.0);
         glTranslatef(-2, -1, 0.0);
+#ifdef COLOR_SQUARES
+        glColor3f(upperLeftColor);
+#endif
         draw(num-1);
         //lower left
         glPopMatrix();
         glScalef(0.5, 0.5, 0.0);
+#ifdef COLOR_SQUARES
+        glColor3f(lowerLeftColor);
+#endif
         draw(num-1);
         //lower right
         glPopMatrix();
         glRotatef(270, 0, 0, 1);
         glScalef(0.5, 0.5, 0.5);
         glTranslatef(-1, 1, 0.0);
+#ifdef COLOR_SQUARES
+        glColor3f(lowerRightColor);
+#endif
         draw(num-1);
         break;   
  }
 }
 
+void probDraw() {
+
+    for(int i = 0; i < ITERATION_COUNT; i++) {
+
+        glPushMatrix();
+
+        for(int i = 0; i < 15; i++) {
+
+            int r = rand()%100;
+
+            //upper right
+            if (r < 25) {
+                glScalef(-0.25, 0.25, 0.0);
+                glTranslatef(-3, 2, 0.0);
+#ifdef COLOR_SQUARES
+                glColor3f(upperRightColor);
+#endif
+            //upper left
+            }else if (r < 50) {
+                //
+                //glPopMatrix();
+                //mirror reflection
+                glRotatef(180, -1, 1, 0.0);
+                glScalef(0.5, 0.5, 0.0);
+                glTranslatef(-2, -1, 0.0);
+#ifdef COLOR_SQUARES
+                glColor3f(upperLeftColor);
+#endif
+
+            //lower left
+            }else if (r < 75) {
+
+                //glPopMatrix();
+                glScalef(0.5, 0.5, 0.0);
+#ifdef COLOR_SQUARES
+                glColor3f(lowerLeftColor);
+#endif
+
+            //lower right
+            }else {
+
+                //glPopMatrix();
+                glRotatef(270, 0, 0, 1);
+                glScalef(0.5, 0.5, 0.5);
+                glTranslatef(-1, 1, 0.0);
+#ifdef COLOR_SQUARES
+                glColor3f(lowerRightColor);
+#endif
+            }
+            glBegin( GL_POINTS);
+            glVertex3f( 0.0, 0.0, 0.0 );
+            glEnd();
+        }
+
+        glPopMatrix();
+    }
+}
+
+
 void drawScene(void)
 {
-	// Clear the rendering window
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    if ((drawFractal &&  currentDrawMethod == DEFINITE_DRAW_METHOD)
+            || !drawFractal) {
+        // Clear the rendering window
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
 
-	//shape to draw color
-	glColor3f( 0.0, 0.0, 0.0 );		
-
-    static int white = 0;
-    GLfloat colors[][3] = { { 1.0f, 1.0f, 1.0f} };
-    //set background color
-    glClearColor(colors[white][0], colors[white][1], colors[white][2], 1.0f);
-
+	//set shape to draw color
+    glColor3f(shapeColor);
+    //set clear color
+    glClearColor(clearColor, 1.0f);
 
     glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-    draw(currentLevel);
 
+    if (drawFractal) {
+        if (currentDrawMethod == PROBABALISTIC_DRAW_METHOD) {
+            probDraw();
+        }else if (currentDrawMethod == DEFINITE_DRAW_METHOD) {
+            draw(currentLevel);
+        }
+    }
+    
     // Flush the pipeline.  (Not usually necessary.)
 	glFlush();
+    drawFractal = true;
 }
 
 // Initialize OpenGL's rendering modes

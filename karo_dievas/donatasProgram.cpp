@@ -4,7 +4,7 @@
 
 int currentLevel = 0;
 // max recursion level until restart occurs 
-const int MAX_LEVEL = 100;
+const int MAX_LEVEL = 50;
 
 // These variables set the dimensions of the rectanglar region we wish to view.
 const double Xmin = -0.5, Xmax = 1.5;
@@ -12,23 +12,12 @@ const double Ymin = -0.5, Ymax = 1.5;
 
 void myKeyboardFunc( unsigned char key, int x, int y )
 {
-
-    static int white = 0;
-    GLfloat colors[][3] = { { 0.0f, 0.0f, 0.0f} };
-    //set background color
-    glClearColor(colors[white][0], colors[white][1], colors[white][2], 1.0f);
-
 	switch ( key ) {
     //when space bar is pressed redraw
 	case ' ':
-        currentLevel += 1;
-        //display(currentLevel);
-        glutPostRedisplay();
+        currentLevel = (currentLevel+1)%MAX_LEVEL;
+		glutPostRedisplay();
 		break;
-	case 'c':
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glutPostRedisplay();
-        break;
     //when esc is presset quit
     case 27:
 		exit(1);
@@ -36,67 +25,83 @@ void myKeyboardFunc( unsigned char key, int x, int y )
 	}
 }
 
-void draw(int num) {
+void draw(int num)
+{
+    
+ switch(num) {
 
-    for(int i = 0; i < MAX_LEVEL; i++) {
+   case 0:
 
+        glBegin(GL_POINTS);
+        glVertex3f( 0.0, 0.0, 0.0 );
+       //
+        //glBegin(GL_LINES);
+        //glVertex3f( 0.0, 0.0, 0.0 );
+        //glVertex3f( 0.0, 1.0, 0.0 );
+        //glVertex3f( 0.0, 0.0, 0.0 );
+        //glVertex3f( 1.0, 0.0, 0.0 );
+        //glBegin( GL_QUADS);
+        //glVertex3f( 0.0, 0.0, 0.0 );
+        //glVertex3f( 0.75, 0.0, 0.0 );
+        //glVertex3f( 1.0, 1.0, 0.0 );
+        //glVertex3f( 0.0, 0.25, 0.0 );		
+
+        ////square
+        //glVertex2f( 0.0, 0.0 );
+        //glVertex2f( 0.0, 1.0 );
+        //glVertex2f( 1.0, 1.0 );
+        //glVertex2f( 1.0, 0.0 );
+		glEnd();
+        break;
+
+   default:
+        glutPostRedisplay(); 
         glPushMatrix();
-
-        for(int i = 0; i < MAX_LEVEL; i++) {
-
-            int r = rand()%100;
-
-            //upper right
-            if (r < 25) {
-                glScalef(-0.25, 0.25, 0.0);
-                glTranslatef(-3, 2, 0.0);
-
-            //upper left
-            }else if (r < 50) {
-                //
-                //glPopMatrix();
-                //mirror reflection
-                glRotatef(180, -1, 1, 0.0);
-                glScalef(0.5, 0.5, 0.0);
-                glTranslatef(-2, -1, 0.0);
-
-            //lower left
-            }else if (r < 75) {
-
-                //glPopMatrix();
-                glScalef(0.5, 0.5, 0.0);
-
-            //lower right
-            }else {
-
-                //glPopMatrix();
-                glRotatef(270, 0, 0, 1);
-                glScalef(0.5, 0.5, 0.5);
-                glTranslatef(-1, 1, 0.0);
-            }
-
-            glBegin( GL_POINTS);
-            glVertex3f( 0.0, 0.0, 0.0 );
-            glEnd();
-        }
-
+        glPushMatrix();
+        glPushMatrix();
+        //upper right
+        glScalef(-0.25, -0.25, 0.25);
+        glTranslatef(-4, -4, 0.0);
+        draw(num-1);
+        //upper left
         glPopMatrix();
-    }
+        glRotatef(180, -1, 1, 0.0);
+        glRotatef(90, 0, 0, 1);
+        glScalef(0.5, 0.5, 0.0);
+        glTranslatef(-1, 1, 0.0);
+        draw(num-1);
+        ////lower left
+        glPopMatrix();
+        glScalef(0.5, 0.5, 0.0);
+        draw(num-1);
+        ////lower right
+        glPopMatrix();
+        glRotatef(180, -1, -1, 0.0);
+        glScalef(0.5, 0.5, 0.5);
+        glTranslatef(0, 1, 0.0);
+        draw(num-1);
+        break;   
+ }
 }
 
 void drawScene(void)
 {
 	// Clear the rendering window
-    //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	//shape to draw color
-	glColor3f( 1.0, 1.0, 1.0 );		
+	glColor3f( 0.0, 0.0, 0.0 );		
+
+    static int white = 0;
+    GLfloat colors[][3] = { { 1.0f, 1.0f, 1.0f} };
+    //set background color
+    glClearColor(colors[white][0], colors[white][1], colors[white][2], 1.0f);
+
 
     glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-    //display(currentLevel);
     draw(currentLevel);
-    //glutPostRedisplay();
+
     // Flush the pipeline.  (Not usually necessary.)
 	glFlush();
 }
@@ -147,7 +152,6 @@ void resizeWindow(int w, int h)
 	glOrtho( windowXmin, windowXmax, windowYmin, windowYmax, -1, 1 );
 
 }
-
 
 
 // Main routine
