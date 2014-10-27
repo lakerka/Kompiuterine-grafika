@@ -48,7 +48,11 @@ void draw(int num) {
 
             //upper right
             if (r < 25) {
-                glScalef(-0.25, 0.25, 0.0);
+                //glScalef(-0.25, 0.25, 0.0);
+
+                glScalef(0.25, 0.25, 0.0); //new
+                glRotatef(180, 0, -1, 0.0); //new
+
                 glTranslatef(-3, 2, 0.0);
 
             //upper left
@@ -56,7 +60,8 @@ void draw(int num) {
                 //
                 //glPopMatrix();
                 //mirror reflection
-                glRotatef(180, -1, 1, 0.0);
+                //glRotatef(180, -1, 1, 0.0);
+                glRotatef(180, -1, 0, 0); //new
                 glScalef(0.5, 0.5, 0.0);
                 glTranslatef(-2, -1, 0.0);
 
