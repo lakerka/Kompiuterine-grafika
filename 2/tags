@@ -1,0 +1,308 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+COLOR_SQUARES	myProgram.cpp	19;"	d	file:
+Camera	myProgram.cpp	/^        Camera(const Vector* inicialOrigin, const Vector* inicialCenter, const Vector* inicialUp) {$/;"	f	class:Camera
+Camera	myProgram.cpp	/^class Camera {$/;"	c	file:
+DEBUG	myProgram.cpp	20;"	d	file:
+DEFAULT_H_ANGLE	myProgram.cpp	/^        static const GLfloat DEFAULT_H_ANGLE = 0.0f;$/;"	m	class:Camera	file:
+DEFAULT_MAX_ZOOM_LEVEL	myProgram.cpp	/^        static const GLfloat DEFAULT_MAX_ZOOM_LEVEL = 100.0f;$/;"	m	class:Camera	file:
+DEFAULT_MIN_ZOOM_LEVEL	myProgram.cpp	/^        static const GLfloat DEFAULT_MIN_ZOOM_LEVEL = -100.0f;$/;"	m	class:Camera	file:
+DEFAULT_V_ANGLE	myProgram.cpp	/^        static const GLfloat DEFAULT_V_ANGLE = 0.0f;$/;"	m	class:Camera	file:
+DEFAULT_ZOOM_LEVEL	myProgram.cpp	/^        static const GLfloat DEFAULT_ZOOM_LEVEL = 0.0f;$/;"	m	class:Camera	file:
+DOWN	myProgram.cpp	/^enum Direction { LEFT, RIGHT, UP, DOWN};$/;"	e	enum:Direction	file:
+Direction	myProgram.cpp	/^enum Direction { LEFT, RIGHT, UP, DOWN};$/;"	g	file:
+DisplayCallback	rotation/testViewTorus.cpp	/^void DisplayCallback(void) {$/;"	f
+DisplayCallback	rotation/view_torus.cpp	/^void DisplayCallback(void) {$/;"	f
+DrawFlatShaded	rotation/testViewTorus.cpp	/^void DrawFlatShaded(void) {$/;"	f
+DrawFlatShaded	rotation/view_torus.cpp	/^void DrawFlatShaded(void) {$/;"	f
+DrawLighted	rotation/testViewTorus.cpp	/^void DrawLighted(void) {$/;"	f
+DrawLighted	rotation/view_torus.cpp	/^void DrawLighted(void) {$/;"	f
+DrawSmoothShaded	rotation/testViewTorus.cpp	/^void DrawSmoothShaded(void) {$/;"	f
+DrawSmoothShaded	rotation/view_torus.cpp	/^void DrawSmoothShaded(void) {$/;"	f
+DrawWireframe	rotation/testViewTorus.cpp	/^void DrawWireframe(void) {$/;"	f
+DrawWireframe	rotation/view_torus.cpp	/^void DrawWireframe(void) {$/;"	f
+FLATSHADED	rotation/testViewTorus.cpp	/^enum {WIREFRAME, FLATSHADED, SMOOTHSHADED, LIGHTED};$/;"	e	enum:__anon2	file:
+FLATSHADED	rotation/view_torus.cpp	/^enum {WIREFRAME, FLATSHADED, SMOOTHSHADED, LIGHTED};$/;"	e	enum:__anon1	file:
+InitGL	rotation/testViewTorus.cpp	/^void InitGL() {$/;"	f
+InitGL	rotation/view_torus.cpp	/^void InitGL() {$/;"	f
+InitMenu	rotation/testViewTorus.cpp	/^void InitMenu() {$/;"	f
+InitMenu	rotation/view_torus.cpp	/^void InitMenu() {$/;"	f
+KeyboardCallback	rotation/testViewTorus.cpp	/^void KeyboardCallback(unsigned char ch, int x, int y) {$/;"	f
+KeyboardCallback	rotation/view_torus.cpp	/^void KeyboardCallback(unsigned char ch, int x, int y) {$/;"	f
+LEFT	myProgram.cpp	/^enum Direction { LEFT, RIGHT, UP, DOWN};$/;"	e	enum:Direction	file:
+LIGHTED	rotation/testViewTorus.cpp	/^enum {WIREFRAME, FLATSHADED, SMOOTHSHADED, LIGHTED};$/;"	e	enum:__anon2	file:
+LIGHTED	rotation/view_torus.cpp	/^enum {WIREFRAME, FLATSHADED, SMOOTHSHADED, LIGHTED};$/;"	e	enum:__anon1	file:
+MAX_ITER	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	13;"	d	file:
+MAX_TRIANGLES	rotation/testViewTorus.cpp	11;"	d	file:
+MAX_TRIANGLES	rotation/view_torus.cpp	11;"	d	file:
+MotionCallback	rotation/testViewTorus.cpp	/^void MotionCallback(int x, int y) {$/;"	f
+MotionCallback	rotation/view_torus.cpp	/^void MotionCallback(int x, int y) {$/;"	f
+MouseCallback	rotation/testViewTorus.cpp	/^void MouseCallback(int button, int state, int x, int y) {$/;"	f
+MouseCallback	rotation/view_torus.cpp	/^void MouseCallback(int button, int state, int x, int y) {$/;"	f
+MyIdleFunc	rotation/testViewTorus.cpp	/^void MyIdleFunc(void) { glutPostRedisplay();} \/* things to do while idle *\/$/;"	f
+MyIdleFunc	rotation/view_torus.cpp	/^void MyIdleFunc(void) { glutPostRedisplay();} \/* things to do while idle *\/$/;"	f
+PI	myProgram.cpp	18;"	d	file:
+PauseIdleFunc	rotation/testViewTorus.cpp	/^void PauseIdleFunc(void) {   glutIdleFunc(NULL); }$/;"	f
+PauseIdleFunc	rotation/view_torus.cpp	/^void PauseIdleFunc(void) {   glutIdleFunc(NULL); }$/;"	f
+Point	Point.cpp	/^Point::Point(GLfloat x, GLfloat y, GLfloat z) {$/;"	f	class:Point
+Point	Point.cpp	/^Point::Point(const Point& p) {$/;"	f	class:Point
+Point	Point.h	/^class Point {$/;"	c
+Point	rotation/testViewTorus.cpp	/^struct Point {float x[3];   float n[3]; };$/;"	s	file:
+Point	rotation/view_torus.cpp	/^struct Point {float x[3];   float n[3]; };$/;"	s	file:
+Quaternion	Quaternion.h	/^        Quaternion () : r(1), x(0), y(0), z(0) {}$/;"	f	class:Quaternion
+Quaternion	Quaternion.h	/^        Quaternion (const Quaternion& q) : r(q.r), x(q.x), y(q.r), z(q.z) {}$/;"	f	class:Quaternion
+Quaternion	Quaternion.h	/^        Quaternion (float r, Vector v) : r(r), x(v.x), y(v.y), z(v.z) {}$/;"	f	class:Quaternion
+Quaternion	Quaternion.h	/^        Quaternion (float r, float x, float y, float z)$/;"	f	class:Quaternion
+Quaternion	Quaternion.h	/^class Quaternion {$/;"	c
+Quaternion	rotation/rotation-by-quat/rotation_quat/quaternion.h	/^        Quaternion () : w(1), x(0), y(0), z(0) {}$/;"	f	class:Quaternion
+Quaternion	rotation/rotation-by-quat/rotation_quat/quaternion.h	/^        Quaternion (const Quaternion& q) : w(q.w), x(q.x), y(q.w), z(q.z) {}$/;"	f	class:Quaternion
+Quaternion	rotation/rotation-by-quat/rotation_quat/quaternion.h	/^        Quaternion (float w, Vector v) : w(w), x(v.x), y(v.y), z(v.z) {}$/;"	f	class:Quaternion
+Quaternion	rotation/rotation-by-quat/rotation_quat/quaternion.h	/^        Quaternion (float w, float x, float y, float z)$/;"	f	class:Quaternion
+Quaternion	rotation/rotation-by-quat/rotation_quat/quaternion.h	/^class Quaternion$/;"	c
+RAD	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	16;"	d	file:
+RIGHT	myProgram.cpp	/^enum Direction { LEFT, RIGHT, UP, DOWN};$/;"	e	enum:Direction	file:
+ROTATE_CAMERA_BY	myProgram.cpp	/^const float ROTATE_CAMERA_BY = 2.0f;$/;"	v
+ReshapeCallback	rotation/testViewTorus.cpp	/^void ReshapeCallback(int width, int height) {$/;"	f
+ReshapeCallback	rotation/view_torus.cpp	/^void ReshapeCallback(int width, int height) {$/;"	f
+RunIdleFunc	rotation/testViewTorus.cpp	/^void RunIdleFunc(void) {   glutIdleFunc(MyIdleFunc); }$/;"	f
+RunIdleFunc	rotation/view_torus.cpp	/^void RunIdleFunc(void) {   glutIdleFunc(MyIdleFunc); }$/;"	f
+SMOOTHSHADED	rotation/testViewTorus.cpp	/^enum {WIREFRAME, FLATSHADED, SMOOTHSHADED, LIGHTED};$/;"	e	enum:__anon2	file:
+SMOOTHSHADED	rotation/view_torus.cpp	/^enum {WIREFRAME, FLATSHADED, SMOOTHSHADED, LIGHTED};$/;"	e	enum:__anon1	file:
+SetDisplayMenu	rotation/testViewTorus.cpp	/^void SetDisplayMenu(int value) {$/;"	f
+SetDisplayMenu	rotation/view_torus.cpp	/^void SetDisplayMenu(int value) {$/;"	f
+SetMainMenu	rotation/testViewTorus.cpp	/^void SetMainMenu(int value) {switch(value) {case 99: exit(0); break;}}$/;"	f
+SetMainMenu	rotation/view_torus.cpp	/^void SetMainMenu(int value) {switch(value) {case 99: exit(0); break;}}$/;"	f
+Triangle	rotation/testViewTorus.cpp	/^struct Triangle {   Point v[3];  };$/;"	s	file:
+Triangle	rotation/view_torus.cpp	/^struct Triangle {   Point v[3];  };$/;"	s	file:
+UP	myProgram.cpp	/^enum Direction { LEFT, RIGHT, UP, DOWN};$/;"	e	enum:Direction	file:
+Vector	Vector.h	/^        Vector () {}$/;"	f	class:Vector
+Vector	Vector.h	/^        Vector (const Vector& v) : x(v.x), y(v.y), z(v.z) {}$/;"	f	class:Vector
+Vector	Vector.h	/^        Vector (float x, float y, float z) : x(x), y(y), z(z) {}$/;"	f	class:Vector
+Vector	Vector.h	/^class Vector {$/;"	c
+Vector	rotation/rotation-by-quat/rotation_quat/vector.h	/^        Vector () {}$/;"	f	class:Vector
+Vector	rotation/rotation-by-quat/rotation_quat/vector.h	/^        Vector (const Vector& v) : x(v.x), y(v.y), z(v.z) {}$/;"	f	class:Vector
+Vector	rotation/rotation-by-quat/rotation_quat/vector.h	/^        Vector (float x, float y, float z) : x(x), y(y), z(z) {}$/;"	f	class:Vector
+Vector	rotation/rotation-by-quat/rotation_quat/vector.h	/^class Vector$/;"	c
+WIREFRAME	rotation/testViewTorus.cpp	/^enum {WIREFRAME, FLATSHADED, SMOOTHSHADED, LIGHTED};$/;"	e	enum:__anon2	file:
+WIREFRAME	rotation/view_torus.cpp	/^enum {WIREFRAME, FLATSHADED, SMOOTHSHADED, LIGHTED};$/;"	e	enum:__anon1	file:
+ZOOM_CAMERA_BY	myProgram.cpp	/^const float ZOOM_CAMERA_BY = 0.3f;$/;"	v
+__Colors_H_INCLUDED__	Colors.h	2;"	d
+__Point_H___	Point.h	2;"	d
+__Quaternion_H__	Quaternion.h	2;"	d
+__quaternion_h	rotation/rotation-by-quat/rotation_quat/quaternion.h	6;"	d
+__vector3d_h	Vector.h	2;"	d
+__vector3d_h	rotation/rotation-by-quat/rotation_quat/vector.h	2;"	d
+_x	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^int _x = 0, _y = 0;$/;"	v
+_y	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^int _x = 0, _y = 0;$/;"	v
+aspect	myProgram.cpp	/^float aspect = 1.0;$/;"	v
+aspect	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^float aspect = 1.0;$/;"	v
+aspect	rotation/testViewTorus.cpp	/^float aspect = 5.0\/4.0;$/;"	v
+aspect	rotation/view_torus.cpp	/^float aspect = 5.0\/4.0;$/;"	v
+black	Colors.h	6;"	d
+blue	Colors.h	10;"	d
+camera	myProgram.cpp	/^   static Camera* camera = new Camera($/;"	v	file:
+cayn	Colors.h	12;"	d
+clearColor	myProgram.cpp	10;"	d	file:
+conjugate	Quaternion.h	/^        Quaternion conjugate () {$/;"	f	class:Quaternion
+conjugate	rotation/rotation-by-quat/rotation_quat/quaternion.h	/^        Quaternion conjugate () {$/;"	f	class:Quaternion
+darkPurple	Colors.h	14;"	d
+deep_blue	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^GLfloat deep_blue[] = {0.1, 0.5, 0.8, 1.0};$/;"	v
+deep_blue	rotation/testViewTorus.cpp	/^GLfloat deep_blue[] = {0.1, 0.5, 0.8, 1.0};$/;"	v
+deep_blue	rotation/view_torus.cpp	/^GLfloat deep_blue[] = {0.1, 0.5, 0.8, 1.0};$/;"	v
+degToRad	myProgram.cpp	/^static float degToRad(float f) {$/;"	f	file:
+display	myProgram.cpp	/^void display() {$/;"	f
+displayMenu	rotation/testViewTorus.cpp	/^int displayMenu, mainMenu;$/;"	v
+displayMenu	rotation/view_torus.cpp	/^int displayMenu, mainMenu;$/;"	v
+displayMode	rotation/testViewTorus.cpp	/^int displayMode = WIREFRAME;$/;"	v
+displayMode	rotation/view_torus.cpp	/^int displayMode = WIREFRAME;$/;"	v
+downX	rotation/testViewTorus.cpp	/^int downX, downY;$/;"	v
+downX	rotation/view_torus.cpp	/^int downX, downY;$/;"	v
+downY	rotation/testViewTorus.cpp	/^int downX, downY;$/;"	v
+downY	rotation/view_torus.cpp	/^int downX, downY;$/;"	v
+draw	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^void draw ()$/;"	f
+dull	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^GLfloat dull[] = {0.0};$/;"	v
+dull	rotation/testViewTorus.cpp	/^GLfloat dull[] = {0.0};$/;"	v
+dull	rotation/view_torus.cpp	/^GLfloat dull[] = {0.0};$/;"	v
+fromAxisAndAngle	myProgram.cpp	/^static Quaternion fromAxisAndAngle (Vector v, float angle) {$/;"	f	class:Camera
+fromAxisAngle	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^void Quaternion::fromAxisAngle (Vector v, float angle)$/;"	f	class:Quaternion
+green	Colors.h	8;"	d
+grey	Colors.h	15;"	d
+hAngle	myProgram.cpp	/^        GLfloat hAngle;$/;"	m	class:Camera	file:
+hAngle	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^float hAngle = 0;$/;"	v
+i	rotation/testViewTorus.cpp	/^int i,j;$/;"	v
+i	rotation/view_torus.cpp	/^int i,j;$/;"	v
+inicialCenter	myProgram.cpp	/^        Vector* inicialCenter;$/;"	m	class:Camera	file:
+inicialOrigin	myProgram.cpp	/^        Vector* inicialOrigin;$/;"	m	class:Camera	file:
+inicialUp	myProgram.cpp	/^        Vector* inicialUp;$/;"	m	class:Camera	file:
+init	Point.cpp	/^void Point::init(GLfloat x, GLfloat y, GLfloat z) {$/;"	f	class:Point
+init	myProgram.cpp	/^        void init($/;"	f	class:Camera
+init	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^void init ()$/;"	f
+initCallbacks	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^void initCallbacks ()$/;"	f
+initGL	myProgram.cpp	/^void initGL() {$/;"	f
+input	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^void input (unsigned char key, int x, int y)$/;"	f
+isZero	Vector.h	/^        bool isZero () const {$/;"	f	class:Vector
+isZero	rotation/rotation-by-quat/rotation_quat/vector.h	/^        bool isZero () const {$/;"	f	class:Vector
+iteration	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^int iteration = 2;$/;"	v
+j	rotation/testViewTorus.cpp	/^int i,j;$/;"	v
+j	rotation/view_torus.cpp	/^int i,j;$/;"	v
+keyboardEventsHandler	myProgram.cpp	/^void keyboardEventsHandler( unsigned char key, int x, int y ) {$/;"	f
+leftButton	rotation/testViewTorus.cpp	/^bool leftButton = false, middleButton = false;$/;"	v
+leftButton	rotation/view_torus.cpp	/^bool leftButton = false, middleButton = false;$/;"	v
+length	Quaternion.h	/^        float length () {$/;"	f	class:Quaternion
+length	Vector.h	/^        float length () const {$/;"	f	class:Vector
+length	rotation/rotation-by-quat/rotation_quat/quaternion.h	/^        float length () {$/;"	f	class:Quaternion
+length	rotation/rotation-by-quat/rotation_quat/vector.h	/^        float length () const {$/;"	f	class:Vector
+light0Position	rotation/testViewTorus.cpp	/^GLfloat light0Position[] = { 0, 1, 0, 1.0}; $/;"	v
+light0Position	rotation/view_torus.cpp	/^GLfloat light0Position[] = { 0, 1, 0, 1.0}; $/;"	v
+lowerLeftColor	myProgram.cpp	15;"	d	file:
+lowerRightColor	myProgram.cpp	16;"	d	file:
+magenta	Colors.h	13;"	d
+main	myProgram.cpp	/^int main( int argc, char** argv ) {$/;"	f
+main	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^int main (int argc, char *argv[])$/;"	f
+main	rotation/testViewTorus.cpp	/^int main(int argc, char **argv) {$/;"	f
+main	rotation/view_torus.cpp	/^int main(int argc, char **argv) {$/;"	f
+main	test.cpp	/^int main( int argc, char** argv ) {$/;"	f
+mainMenu	rotation/testViewTorus.cpp	/^int displayMenu, mainMenu;$/;"	v
+mainMenu	rotation/view_torus.cpp	/^int displayMenu, mainMenu;$/;"	v
+makeIdentity	myProgram.cpp	/^static void makeIdentity(float matrix[]) {$/;"	f	file:
+matrix	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^float matrix[16] = {$/;"	v
+maxZoomLevel	myProgram.cpp	/^        GLfloat minZoomLevel, maxZoomLevel;$/;"	m	class:Camera	file:
+middleButton	rotation/testViewTorus.cpp	/^bool leftButton = false, middleButton = false;$/;"	v
+middleButton	rotation/view_torus.cpp	/^bool leftButton = false, middleButton = false;$/;"	v
+minZoomLevel	myProgram.cpp	/^        GLfloat minZoomLevel, maxZoomLevel;$/;"	m	class:Camera	file:
+motion	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^void motion (int x, int y)$/;"	f
+mouse	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^void mouse (int button, int state, int x, int y)$/;"	f
+mouseEventsHandler	myProgram.cpp	/^void mouseEventsHandler(int button, int state, int x, int y) {$/;"	f
+multiply	myProgram.cpp	/^Vector multiply(Quaternion& q, const Vector& vec)$/;"	f	class:Camera
+n	rotation/testViewTorus.cpp	/^struct Point {float x[3];   float n[3]; };$/;"	m	struct:Point	file:
+n	rotation/view_torus.cpp	/^struct Point {float x[3];   float n[3]; };$/;"	m	struct:Point	file:
+negate	Quaternion.h	/^        Quaternion negate () {$/;"	f	class:Quaternion
+negate	rotation/rotation-by-quat/rotation_quat/quaternion.h	/^        Quaternion negate () {$/;"	f	class:Quaternion
+norm	Quaternion.h	/^        float norm () {$/;"	f	class:Quaternion
+norm	rotation/rotation-by-quat/rotation_quat/quaternion.h	/^        float norm () {$/;"	f	class:Quaternion
+normalize	Quaternion.h	/^        Quaternion normalize () {$/;"	f	class:Quaternion
+normalize	Vector.h	/^        void normalize () {$/;"	f	class:Vector
+normalize	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^void Quaternion::normalize ()$/;"	f	class:Quaternion
+normalize	rotation/rotation-by-quat/rotation_quat/vector.h	/^        void normalize () {$/;"	f	class:Vector
+normalizeAngle	myProgram.cpp	/^        void normalizeAngle(GLfloat& angle) {$/;"	f	class:Camera
+off	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^GLfloat off[] = {0.0, 0.0, 0.0, 0.0};$/;"	v
+off	rotation/testViewTorus.cpp	/^GLfloat off[] = {0.0, 0.0, 0.0, 0.0};$/;"	v
+off	rotation/view_torus.cpp	/^GLfloat off[] = {0.0, 0.0, 0.0, 0.0};$/;"	v
+operator *	Quaternion.h	/^        Quaternion operator* (const Quaternion& q) const {$/;"	f	class:Quaternion
+operator *	Quaternion.h	/^        Quaternion operator* (const Vector& v) const {$/;"	f	class:Quaternion
+operator *	Vector.h	/^        Vector operator* (float s) const {$/;"	f	class:Vector
+operator *	Vector.h	/^        float operator* (const Vector& v) const {$/;"	f	class:Vector
+operator *	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^Quaternion Quaternion::operator* (const Quaternion& q) const {$/;"	f	class:Quaternion
+operator *	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^Vector Quaternion::operator* (const Vector& vec)$/;"	f	class:Quaternion
+operator *	rotation/rotation-by-quat/rotation_quat/vector.h	/^        Vector operator* (float s) const {$/;"	f	class:Vector
+operator *	rotation/rotation-by-quat/rotation_quat/vector.h	/^        float operator* (const Vector& v) const {$/;"	f	class:Vector
+operator +	Quaternion.h	/^        Quaternion operator+ (const Quaternion& q) const {$/;"	f	class:Quaternion
+operator +	Vector.h	/^        Vector operator+ (const Vector& v) const {$/;"	f	class:Vector
+operator +	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^Quaternion Quaternion::operator+ (const Quaternion& q) const {$/;"	f	class:Quaternion
+operator +	rotation/rotation-by-quat/rotation_quat/vector.h	/^        Vector operator+ (const Vector& v) const {$/;"	f	class:Vector
+operator -	Quaternion.h	/^        Quaternion operator- (const Quaternion& q) const {$/;"	f	class:Quaternion
+operator -	Vector.h	/^        Vector operator- (const Vector& v) const {$/;"	f	class:Vector
+operator -	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^Quaternion Quaternion::operator- (const Quaternion& q) const {$/;"	f	class:Quaternion
+operator -	rotation/rotation-by-quat/rotation_quat/vector.h	/^        Vector operator- (const Vector& v) const {$/;"	f	class:Vector
+operator /	Quaternion.h	/^        Quaternion operator\/ (const float f) const {$/;"	f	class:Quaternion
+operator <<	myProgram.cpp	/^ostream& operator<< (ostream& os, const Quaternion& q) {$/;"	f
+operator <<	myProgram.cpp	/^ostream& operator<< (ostream& os, const Vector& v) {$/;"	f
+operator <<	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^ostream& operator<< (ostream& os, const Quaternion& q) {$/;"	f
+operator <<	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^ostream& operator<< (ostream& os, const Vector& v)$/;"	f
+operator =	Quaternion.h	/^        Quaternion operator= (const Quaternion& q) {$/;"	f	class:Quaternion
+operator =	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^Quaternion Quaternion::operator= (const Quaternion& q) {$/;"	f	class:Quaternion
+operator =	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^Vector Vector::operator= (const Vector& v)$/;"	f	class:Vector
+operator ==	Vector.h	/^        bool operator== (const Vector& v) const {$/;"	f	class:Vector
+operator ==	rotation/rotation-by-quat/rotation_quat/vector.h	/^        bool operator== (const Vector& v) const {$/;"	f	class:Vector
+operator ^	Vector.h	/^        Vector operator^ (const Vector& v) const {$/;"	f	class:Vector
+operator ^	rotation/rotation-by-quat/rotation_quat/vector.h	/^        Vector operator^ (const Vector& v) const {$/;"	f	class:Vector
+performTransformations	myProgram.cpp	/^        void performTransformations() {$/;"	f	class:Camera
+print	myProgram.cpp	/^void print(char* str) {$/;"	f
+print	myProgram.cpp	/^void print(const char* str) {$/;"	f
+printAngles	myProgram.cpp	/^        void printAngles() {$/;"	f	class:Camera
+printMaxtrix	myProgram.cpp	/^static void printMaxtrix(float mat[]) {$/;"	f	file:
+printMaxtrix	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^static void printMaxtrix(float mat[]) {$/;"	f	file:
+r	Quaternion.h	/^        float r, x, y, z;$/;"	m	class:Quaternion
+red	Colors.h	9;"	d
+red	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^GLfloat red[] = {1.0, 0.0, 0.0, 1.0};$/;"	v
+red	rotation/testViewTorus.cpp	/^GLfloat red[] = {1.0, 0.0, 0.0, 1.0};$/;"	v
+red	rotation/view_torus.cpp	/^GLfloat red[] = {1.0, 0.0, 0.0, 1.0};$/;"	v
+reshape	myProgram.cpp	/^void reshape(GLsizei w, GLsizei h) {  \/\/ GLsizei for non-negative integer$/;"	f
+reshape	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^void reshape (int w, int h)$/;"	f
+rotate	myProgram.cpp	/^        Vector rotate(Vector axis, float angle, Vector vectorToRotate) {$/;"	f	class:Camera
+rotateBy	myProgram.cpp	/^        void rotateBy(Direction dir, GLfloat angle) {$/;"	f	class:Camera
+rotateHorizontallyBy	myProgram.cpp	/^        void rotateHorizontallyBy(GLfloat angle) {$/;"	f	class:Camera
+rotateVerticallyBy	myProgram.cpp	/^        void rotateVerticallyBy(GLfloat angle) {$/;"	f	class:Camera
+rotation	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^Quaternion rotation;$/;"	v
+rotationMatrix	myProgram.cpp	/^float rotationMatrix[16];$/;"	m	class:Camera	file:
+sdepth	rotation/testViewTorus.cpp	/^float sdepth = 10;$/;"	v
+sdepth	rotation/view_torus.cpp	/^float sdepth = 10;$/;"	v
+set	Point.cpp	/^void Point::set(GLfloat x, GLfloat y, GLfloat z) {$/;"	f	class:Point
+set	Point.cpp	/^void Point::set(Point& p) {$/;"	f	class:Point
+set	Point.cpp	/^void Point::set(const Point& p) {$/;"	f	class:Point
+set	Vector.h	/^        void set(Vector& v) {$/;"	f	class:Vector
+set	Vector.h	/^        void set(const Vector& v) {$/;"	f	class:Vector
+set	Vector.h	/^        void set(float x, float y, float z) {$/;"	f	class:Vector
+shapeColor	myProgram.cpp	11;"	d	file:
+shiny	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^GLfloat shiny[] = {50.0};$/;"	v
+shiny	rotation/testViewTorus.cpp	/^GLfloat shiny[] = {50.0};$/;"	v
+shiny	rotation/view_torus.cpp	/^GLfloat shiny[] = {50.0};$/;"	v
+sphi	rotation/testViewTorus.cpp	/^float sphi=90.0, stheta=45.0;$/;"	v
+sphi	rotation/view_torus.cpp	/^float sphi=90.0, stheta=45.0;$/;"	v
+sqr	myProgram.cpp	/^static float sqr(float f) {$/;"	f	file:
+stheta	rotation/testViewTorus.cpp	/^float sphi=90.0, stheta=45.0;$/;"	v
+stheta	rotation/view_torus.cpp	/^float sphi=90.0, stheta=45.0;$/;"	v
+toMatrix	myProgram.cpp	/^void toMatrix (float matrix[], Quaternion& q) {$/;"	f	class:Camera
+toMatrix	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^void Quaternion::toMatrix (float matrix[])$/;"	f	class:Quaternion
+unit	Vector.h	/^        Vector unit () const {$/;"	f	class:Vector
+unit	rotation/rotation-by-quat/rotation_quat/vector.h	/^        Vector unit () const {$/;"	f	class:Vector
+upperLeftColor	myProgram.cpp	14;"	d	file:
+upperRightColor	myProgram.cpp	13;"	d	file:
+v	rotation/testViewTorus.cpp	/^struct Triangle {   Point v[3];  };$/;"	m	struct:Triangle	file:
+v	rotation/view_torus.cpp	/^struct Triangle {   Point v[3];  };$/;"	m	struct:Triangle	file:
+vAngle	myProgram.cpp	/^        GLfloat vAngle;$/;"	m	class:Camera	file:
+w	rotation/rotation-by-quat/rotation_quat/quaternion.h	/^        float w, x, y, z;$/;"	m	class:Quaternion
+white	Colors.h	5;"	d
+white	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^GLfloat white[] = {1.0, 1.0, 1.0, 1.0};$/;"	v
+white	rotation/testViewTorus.cpp	/^GLfloat white[] = {1.0, 1.0, 1.0, 1.0};$/;"	v
+white	rotation/view_torus.cpp	/^GLfloat white[] = {1.0, 1.0, 1.0, 1.0};$/;"	v
+x	Point.h	/^        GLfloat x;$/;"	m	class:Point
+x	Quaternion.h	/^        float r, x, y, z;$/;"	m	class:Quaternion
+x	Vector.h	/^        float x, y, z;$/;"	m	class:Vector
+x	rotation/rotation-by-quat/rotation_quat/quaternion.h	/^        float w, x, y, z;$/;"	m	class:Quaternion
+x	rotation/rotation-by-quat/rotation_quat/vector.h	/^        float x, y, z;$/;"	m	class:Vector
+x	rotation/testViewTorus.cpp	/^struct Point {float x[3];   float n[3]; };$/;"	m	struct:Point	file:
+x	rotation/view_torus.cpp	/^struct Point {float x[3];   float n[3]; };$/;"	m	struct:Point	file:
+xcam	rotation/testViewTorus.cpp	/^float xcam = 0, ycam = 0;$/;"	v
+xcam	rotation/view_torus.cpp	/^float xcam = 0, ycam = 0;$/;"	v
+xsize	rotation/testViewTorus.cpp	/^long xsize, ysize;$/;"	v
+xsize	rotation/view_torus.cpp	/^long xsize, ysize;$/;"	v
+y	Point.h	/^        GLfloat y;$/;"	m	class:Point
+y	Quaternion.h	/^        float r, x, y, z;$/;"	m	class:Quaternion
+y	Vector.h	/^        float x, y, z;$/;"	m	class:Vector
+y	rotation/rotation-by-quat/rotation_quat/quaternion.h	/^        float w, x, y, z;$/;"	m	class:Quaternion
+y	rotation/rotation-by-quat/rotation_quat/vector.h	/^        float x, y, z;$/;"	m	class:Vector
+ycam	rotation/testViewTorus.cpp	/^float xcam = 0, ycam = 0;$/;"	v
+ycam	rotation/view_torus.cpp	/^float xcam = 0, ycam = 0;$/;"	v
+ysize	rotation/testViewTorus.cpp	/^long xsize, ysize;$/;"	v
+ysize	rotation/view_torus.cpp	/^long xsize, ysize;$/;"	v
+z	Point.h	/^        GLfloat z;$/;"	m	class:Point
+z	Quaternion.h	/^        float r, x, y, z;$/;"	m	class:Quaternion
+z	Vector.h	/^        float x, y, z;$/;"	m	class:Vector
+z	rotation/rotation-by-quat/rotation_quat/quaternion.h	/^        float w, x, y, z;$/;"	m	class:Quaternion
+z	rotation/rotation-by-quat/rotation_quat/vector.h	/^        float x, y, z;$/;"	m	class:Vector
+zFar	rotation/testViewTorus.cpp	/^float zNear=1.0, zFar=100.0;$/;"	v
+zFar	rotation/view_torus.cpp	/^float zNear=1.0, zFar=100.0;$/;"	v
+zNear	rotation/testViewTorus.cpp	/^float zNear=1.0, zFar=100.0;$/;"	v
+zNear	rotation/view_torus.cpp	/^float zNear=1.0, zFar=100.0;$/;"	v
+zoom	rotation/rotation-by-quat/rotation_quat/rotation_quat.cpp	/^float zoom = 4;$/;"	v
+zoomBy	myProgram.cpp	/^        void zoomBy(GLfloat zoomBy) {$/;"	f	class:Camera
+zoomLevel	myProgram.cpp	/^        GLfloat zoomLevel;$/;"	m	class:Camera	file:
+~Quaternion	Quaternion.h	/^        ~Quaternion () {}$/;"	f	class:Quaternion
+~Quaternion	rotation/rotation-by-quat/rotation_quat/quaternion.h	/^        ~Quaternion () {}$/;"	f	class:Quaternion
+~Vector	Vector.h	/^        ~Vector () {}$/;"	f	class:Vector
+~Vector	rotation/rotation-by-quat/rotation_quat/vector.h	/^        ~Vector () {}$/;"	f	class:Vector
