@@ -13,8 +13,6 @@ class Vector {
         Vector (float x, float y, float z) : x(x), y(y), z(z) {}
         Vector (const Vector& v) : x(v.x), y(v.y), z(v.z) {}
 
-        Vector operator= (const Vector& v);
-
         float length () const {
             return sqrt (x*x + y*y + z*z);
         }
@@ -55,8 +53,24 @@ class Vector {
             set(v.x, v.y, v.z);
         }
 
-        
+        float abs(float f) {
+            
+            if (f < 0) {
+                return -f;    
+            }
+            return f;
+        }
 
+        //returns true if this vector == v1
+        bool compare(Vector& v1) {
+            
+            float error = 0.1;
+            float xDiff = abs(this->x - v1.x); 
+            float yDiff = abs(this->y - v1.y); 
+            float zDiff = abs(this->z - v1.z); 
+
+            return xDiff < error && yDiff < error && zDiff < error;
+        }
 
         Vector operator+ (const Vector& v) const {
             return Vector (x + v.x, y + v.y, z + v.z);

@@ -1,8 +1,10 @@
 #include <iostream>
+#include <vector>
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>   
 #include "Point.h"
+#include "Triangle.h"
 #include "Colors.h"
 #include "Quaternion.h"
 #include <GL/glut.h>	// OpenGL Graphics Utility Library
@@ -17,7 +19,7 @@
 
 #define PI 3.14159265
 #define COLOR_SQUARES 1
-#define DEBUG = 1
+#define DEBUG 1
 
 using namespace std;
 
@@ -92,12 +94,100 @@ ostream& operator<< (ostream& os, const Vector& v) {
     return os;
 }
 
+static Vector rotate(Vector axis, float angle, Vector vectorToRotate) {
+
+    //rotation is perfomed twice bigger than provided angle
+    angle = angle / 2.0;
+    float angleInRad = degToRad(angle);
+    //generate quaternion q from axis and angle
+    axis.normalize(); 
+    float realPart = cos(angleInRad);
+    Vector imgPart = axis*sin(angleInRad);
+    Quaternion q(realPart, imgPart);
+
+    //cout << "<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>" << endl;
+
+    //cout << "imgPart: " << imgPart << endl;
+    //cout << "Quaternion: q " << q << endl;
+
+    //multiply axis by quaternion, d = qp
+    Quaternion d = q*vectorToRotate;
+
+    //cout << "vectToRotate: " << vectorToRotate << endl;
+    //cout << "Quaternion d: " << d << endl;
+
+    //find inverse q
+    Quaternion invQ = q.conjugate()/sqr(q.length());
+
+    //cout << "Quaternion q: " << q << endl;
+    //cout << "Quaternion invQ: " << invQ << endl;
+
+    //multiply d by inverse of q
+    Quaternion rez = d*invQ;
+
+    //cout << "Quaternion rez: " << rez << endl;
+
+    Vector rezVect(rez.x, rez.y, rez.z);
+
+    return rezVect;
+}
+
+static void toMatrix (float matrix[], Quaternion& q) {
+
+    float r = q.r;
+    float x = q.x;
+    float y = q.y;
+    float z = q.z;
+
+    float x2 = x*x;
+    float y2 = y*y;
+    float z2 = z*z;
+    float xy = x*y;
+    float xz = x*z;
+    float yz = y*z;
+    float wx = r*x;
+    float wy = r*y;
+    float wz = r*z;
+
+    matrix[0] = 1 - 2*y2 - 2*z2;
+    matrix[1] = 2*xy + 2*wz;
+    matrix[2] = 2*xz - 2*wy;
+
+    matrix[4] = 2*xy - 2*wz;
+    matrix[5] = 1 - 2*x2 - 2*z2;
+    matrix[6] = 2*yz + 2*wx;
+
+    matrix[8] = 2*xz + 2*wy;
+    matrix[9] = 2*yz - 2*wx;
+    matrix[10]= 1 - 2*x2 - 2*y2;
+
+    //printMaxtrix(rotationMatrix);
+}
+
+
+
+static Quaternion fromAxisAndAngle (Vector v, float angleInDegrees) {
+
+    angleInDegrees = angleInDegrees * 0.5f;
+    float angleInRadians = degToRad(angleInDegrees);
+    v.normalize();
+    float r = cos(angleInRadians);
+    float s = sin(angleInRadians);
+    float x = (v.x * s);
+    float y = (v.y * s);
+    float z = (v.z * s);
+
+    return Quaternion(r, x, y, z);
+}
+
+
+
 class Camera {
 
     private:
         static const GLfloat DEFAULT_H_ANGLE = 0.0f;
         static const GLfloat DEFAULT_V_ANGLE = 0.0f;
-        static const GLfloat DEFAULT_ZOOM_LEVEL = 0.0f;
+        static const GLfloat DEFAULT_ZOOM_LEVEL = 10.0f;
         static const GLfloat DEFAULT_MIN_ZOOM_LEVEL = -100.0f;
         static const GLfloat DEFAULT_MAX_ZOOM_LEVEL = 100.0f;
 
@@ -115,6 +205,7 @@ class Camera {
         Vector YAxis;
         Vector XAxis;
 
+    public:
         GLfloat zoomLevel;
 
     public:
@@ -163,53 +254,6 @@ class Camera {
 
         float rotationMatrix[16];
 
-        void toMatrix (float matrix[], Quaternion& q) {
-
-            float r = q.r;
-            float x = q.x;
-            float y = q.y;
-            float z = q.z;
-
-            float x2 = x*x;
-            float y2 = y*y;
-            float z2 = z*z;
-            float xy = x*y;
-            float xz = x*z;
-            float yz = y*z;
-            float wx = r*x;
-            float wy = r*y;
-            float wz = r*z;
-
-            matrix[0] = 1 - 2*y2 - 2*z2;
-            matrix[1] = 2*xy + 2*wz;
-            matrix[2] = 2*xz - 2*wy;
-
-            matrix[4] = 2*xy - 2*wz;
-            matrix[5] = 1 - 2*x2 - 2*z2;
-            matrix[6] = 2*yz + 2*wx;
-
-            matrix[8] = 2*xz + 2*wy;
-            matrix[9] = 2*yz - 2*wx;
-            matrix[10]= 1 - 2*x2 - 2*y2;
-
-            //printMaxtrix(rotationMatrix);
-        }
-
-
-
-        static Quaternion fromAxisAndAngle (Vector v, float angleInDegrees) {
-
-            angleInDegrees = angleInDegrees * 0.5f;
-            float angleInRadians = degToRad(angleInDegrees);
-            v.normalize();
-            float r = cos(angleInRadians);
-            float s = sin(angleInRadians);
-            float x = (v.x * s);
-            float y = (v.y * s);
-            float z = (v.z * s);
-
-            return Quaternion(r, x, y, z);
-        }
 
 
 
@@ -254,10 +298,6 @@ class Camera {
 
         void performTransformations() {
 
-            //-------------------- Zoom ----------------------//
-            //origin->z =  origin->z - zoomLevel;
-
-
             //-------------------- Rotation ----------------------//
             // Pirma Buvo meginta pilnai pasukti sukauptu kampu, taciau
             // posukis turi buti reliatyvus su 'stebetojo' posizija.
@@ -301,9 +341,9 @@ class Camera {
             //YAxis.set(rotate(XAxis, vAngle, YAxis));
             //}
 
-            cout << "====================" << endl;
-            cout << "X asis: " << XAxis << endl;
-            cout << "Y asis: " << YAxis << endl;
+            //cout << "====================" << endl;
+            //cout << "X asis: " << XAxis << endl;
+            //cout << "Y asis: " << YAxis << endl;
             //posukius galime sujungti tiesiog sudaungindami kvaternijonus
             Quaternion q = q1*q2;
             q.normalize();
@@ -325,43 +365,6 @@ class Camera {
         }
 
 
-        Vector rotate(Vector axis, float angle, Vector vectorToRotate) {
-
-            //rotation is perfomed twice bigger than provided angle
-            angle = angle / 2.0;
-            float angleInRad = degToRad(angle);
-            //generate quaternion q from axis and angle
-            axis.normalize(); 
-            float realPart = cos(angleInRad);
-            Vector imgPart = axis*sin(angleInRad);
-            Quaternion q(realPart, imgPart);
-
-            //cout << "<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>" << endl;
-
-            //cout << "imgPart: " << imgPart << endl;
-            //cout << "Quaternion: q " << q << endl;
-
-            //multiply axis by quaternion, d = qp
-            Quaternion d = q*vectorToRotate;
-
-            //cout << "vectToRotate: " << vectorToRotate << endl;
-            //cout << "Quaternion d: " << d << endl;
-
-            //find inverse q
-            Quaternion invQ = q.conjugate()/sqr(q.length());
-
-            //cout << "Quaternion q: " << q << endl;
-            //cout << "Quaternion invQ: " << invQ << endl;
-
-            //multiply d by inverse of q
-            Quaternion rez = d*invQ;
-
-            //cout << "Quaternion rez: " << rez << endl;
-
-            Vector rezVect(rez.x, rez.y, rez.z);
-
-            return rezVect;
-        }
 
         void rotateBy(Direction dir, GLfloat angle) {
 
@@ -384,7 +387,7 @@ class Camera {
 
         void zoomBy(GLfloat zoomBy) {
 
-            zoomLevel += zoomBy;
+            zoomLevel -= zoomBy;
             if (zoomLevel > maxZoomLevel) {
                 zoomLevel = maxZoomLevel;
             }else if (zoomLevel < minZoomLevel) {
@@ -460,73 +463,250 @@ void mouseEventsHandler(int button, int state, int x, int y) {
 }
 
 
+
+
+
+vector<Triangle> triangles;
+
+bool isTriangleDrawn(Triangle& t) {
+    
+    for(int i = 0; i < triangles.size(); i++) {
+
+        if (t.compare(triangles[i]) == true) {
+            return true;
+        }
+    }
+    return false;
+}
+
+float zOffset = 0.0;
+
+void drawPentagon() {
+
+    glColor3f(darkPurple);
+    int v;
+    float ang;
+    float vertexAngle = degToRad(360.0)/5.0;  
+    float angleOffset = degToRad(54.0);
+
+    glBegin (GL_POLYGON);
+    for (v = 0; v < 5; v++)  {                  
+
+        ang = v * vertexAngle - angleOffset;
+        glVertex2f(cos(ang), sin(ang));
+    }
+ 
+    glEnd();
+}
+
+
+Triangle t;
+
+void initTriangle(
+        float triangleSide, 
+        float upperCenterOffsetUpwards
+        ) {
+    
+
+    float x                        =  triangleSide/2.0;
+    float aukstine                 =  sqrt(3.0)*x;
+
+    //cout << "x: " << x << endl;
+    //cout << "aukstine: " << aukstine << endl;
+
+    t.set(
+            -x   , -(aukstine - upperCenterOffsetUpwards) , 0.0f ,
+            0.0f , upperCenterOffsetUpwards               , 0.0f ,
+            +x   , -(aukstine - upperCenterOffsetUpwards)  , 0.0f
+         );
+
+}
+
+void drawTriangles(
+            float pentagonDistToConer,
+            float triangleSide, 
+            float upperCenterOffsetUpwards,
+            float downAngle
+        ) {
+
+    glColor3f(black);
+    initTriangle(triangleSide, upperCenterOffsetUpwards);
+
+    float rotationLeftAngle = -2.0*36.0;
+    
+
+    glPushMatrix();
+    for(int i = 0; i < 5; i++) {
+
+        float rotAngle = i == 0 ? rotationLeftAngle/2.0 : rotationLeftAngle;
+        glRotatef(rotAngle, 0.0, 0.0, 1.0);
+        glPushMatrix();
+        glTranslatef(0.0, -pentagonDistToConer, 0.0);
+        glRotatef(downAngle, 1.0, 0.0, 0.0);
+        t.draw();
+        glPopMatrix();
+    }
+    glPopMatrix();
+}
+
+void drawSquare(float squareSide) {
+
+    float x = squareSide/2.0;
+    glColor3f(grey);
+    glBegin(GL_POLYGON);
+    //clock-wise
+    glVertex3f(-x, -squareSide, zOffset);
+    glVertex3f(-x, 0.0f, zOffset);
+    glVertex3f(x, 0.0f, zOffset);
+    glVertex3f(x, -squareSide, zOffset);
+    glEnd();
+}
+
+
+void drawSquares(float pentagonDistToWall, float squareSide, float downAngle) {
+
+    float dist = pentagonDistToWall;
+    glPushMatrix();
+    glTranslatef(0.0, -pentagonDistToWall, 0.0);
+    glRotatef(downAngle, 1.0, 0.0, 0.0);
+    drawSquare(squareSide);
+    glPopMatrix();
+    
+    float rotAngle = 360.0 - 72.0;
+
+    glPushMatrix();
+    for(int i = 0; i < 4; i++) {
+
+        glRotatef(rotAngle, 0.0, 0.0, 1.0);
+        glPushMatrix();
+        glTranslatef(0.0, -pentagonDistToWall, 0.0);
+        glRotatef(downAngle, 1.0, 0.0, 0.0);
+        drawSquare(squareSide);
+        glPopMatrix();
+    }
+    glPopMatrix();
+}
+
+void drawFace() {
+
+    float pentagonDistToCorner = 1.0;
+    float pentagonDistToWall = sin(degToRad(54.0));
+    drawPentagon();
+
+    float squaresDownAngle = 30.0f;
+    float trianglesDownAngle = squaresDownAngle * 1.20f;
+
+    float squareSide = 2.0*sin(degToRad(36.0));
+    drawSquares(pentagonDistToWall,  squareSide, squaresDownAngle);
+
+    float triangleSide = squareSide;
+    float upperCenterOffsetUpwards = 0.0f;
+    drawTriangles(pentagonDistToCorner, triangleSide, upperCenterOffsetUpwards, trianglesDownAngle);
+}
+
+void drawHalf() {
+
+
+    glPushMatrix();
+    drawFace();
+    glPopMatrix();
+
+    float squaresDownAngle = 30.0f;
+    float squareSide = 2.0*sin(degToRad(36.0));
+    float heightDiff = squareSide*sin(degToRad(squaresDownAngle));
+    float dist = 2.41;
+
+    float rotAngle = 36.0f;
+    float downAngle = 36.0f;
+    float rotMatrix[16];
+
+    float pentagonDistToCorner = 1.0;
+    float pentagonDistToWall = sin(degToRad(54.0));
+
+    for(int i = 0; i < 5; i++) {
+
+        float curAngle = rotAngle + 72*i;
+        glPushMatrix();
+
+        glRotatef(curAngle , 0.0 , 0.0 , 1.0);
+        glTranslatef(0, pentagonDistToWall, 0.0f);
+        glRotatef(-squaresDownAngle*2 - 3.0, 1.0 , 0.0 , 0.0);
+        glTranslatef(0, pentagonDistToWall, 0.0f);
+        glTranslatef(0.0, 1.0, heightDiff);
+        drawFace();
+        
+        glPopMatrix();
+    }
+}
+
+#define DEBUG2 0
+
+void draw() {
+
+
+#if DEBUG
+    glPointSize(7.0f);
+    glBegin(GL_POINTS);
+    glColor3f(cayan);
+    glVertex3f(0.0,0.0,0.0);
+    glEnd();
+#endif
+    
+    //move sphere to center
+    glPushMatrix();
+
+    
+    float sphereRadius = 4.9;
+    glTranslatef(0.0, 0.0, sphereRadius/2);
+
+    glPushMatrix();
+    drawHalf();
+    glPopMatrix();
+
+#if DEBUG2
+    glPointSize(7.0f);
+    glBegin(GL_POINTS);
+    glColor3f(cayan);
+    glVertex3f(0.0,0.0,0.0);
+    glEnd();
+
+    glPointSize(7.0f);
+    glBegin(GL_POINTS);
+    glColor3f(green);
+    glVertex3f(1.0,0.0,0.0);
+    glEnd();
+
+    glPointSize(7.0f);
+    glBegin(GL_POINTS);
+    glColor3f(red);
+    glVertex3f(0.0,1.0,0.0);
+    glEnd();
+#endif
+
+
+
+    glPushMatrix();
+    glRotatef(180.0, 1.0, 0.0, 0.0);
+    glTranslatef(0.0, 0.0, sphereRadius);
+    drawHalf();
+    glPopMatrix();
+
+    glPopMatrix();
+}
+
 void display() {
 
     glMatrixMode (GL_MODELVIEW);
     glLoadIdentity ();
-    gluLookAt (0, 0, -6, 0, 0, 0, 0, 1, 0);
+    gluLookAt (0, 0, -camera->zoomLevel, 0, 0, 0, 0, 1, 0);
 
     glClearColor (white,  0);
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glMultMatrixf (camera->rotationMatrix);
 
+    draw();
 
-    // Front
-    glBegin(GL_QUADS); 
-    glColor3f(1.0f, 0.0f, 1.0f);     // Red
-    glVertex3f( -1.0f, -1.0f, 1.0f);
-    glVertex3f(-1.0f, 1.0f, 1.0f);
-    glVertex3f(1.0f, 1.0f, 1.0f);
-    glVertex3f(1.0f, -1.0f, 1.0f);
-    glEnd();
-
-    // Right
-    glBegin(GL_QUADS); 
-    glColor3f(0.0f, 0.0f, 1.0f);     // Blue
-    glVertex3f(1.0f, -1.0f, 1.0f);
-    glVertex3f(1.0f, 1.0f, 1.0f);
-    glVertex3f(1.0f, 1.0f, -1.0f);
-    glVertex3f(1.0f, -1.0f, -1.0f);
-    glEnd();
-
-    // Back
-    glBegin(GL_QUADS); 
-    glColor3f(0.0f, 1.0f, 0.0f);     // Green
-    glVertex3f( -1.0f, -1.0f, -1.0f);
-    glVertex3f(-1.0f, 1.0f, -1.0f);
-    glVertex3f(1.0f, 1.0f, -1.0f);
-    glVertex3f(1.0f, -1.0f, -1.0f);
-    glEnd();
-
-    // Left
-    glBegin(GL_QUADS); 
-    glColor3f(1.0f,1.0f,0.0f);       // Red
-    glVertex3f(-1.0f, -1.0f, 1.0f);
-    glVertex3f(-1.0f, 1.0f, 1.0f);
-    glVertex3f(-1.0f, 1.0f, -1.0f);
-    glVertex3f(-1.0f, -1.0f, -1.0f);
-    glEnd();
-
-    // Top
-    glBegin(GL_QUADS); 
-    glColor3f(0.1f, 0.5f, 0.3f);       // Dark green
-    glVertex3f(-1.0f, 1.0f, 1.0f);
-    glVertex3f( 1.0f, 1.0f, 1.0f);
-    glVertex3f( 1.0f, 1.0f, -1.0f);
-    glVertex3f(-1.0f, 1.0f, -1.0f);
-    glEnd();
-
-    //Bottom
-    glBegin(GL_QUADS);
-    glColor3f(0.0f,0.0f,0.0f);       // Black
-    glVertex3f(-1.0f, -1.0f, 1.0f);
-    glVertex3f( 1.0f, -1.0f, 1.0f);
-    glVertex3f( 1.0f, -1.0f, -1.0f);
-    glVertex3f(-1.0f, -1.0f, -1.0f);
-    glEnd();  
-
-    // Swap the front and back frame buffers (double buffering)
     glutSwapBuffers();  
 }
 
@@ -534,6 +714,7 @@ void display() {
 void reshape(GLsizei w, GLsizei h) {  
     glViewport (0, 0, w, h);
     aspect = (float)w / (float)h;
+
     glutPostRedisplay ();
 }
 
@@ -544,6 +725,7 @@ void initGL() {
     glEnable (GL_COLOR_MATERIAL);
     glEnable (GL_DEPTH_TEST);
 }
+
 
 int main( int argc, char** argv ) {
 

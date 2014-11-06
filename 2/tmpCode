@@ -1,0 +1,39 @@
+    tr.draw();
+
+    //rotate around lower left point, rotation axis is perpendicular
+    //to triangle horizontally
+    Vector leftAxis = tr.lowerLeft - tr.upperCenter;
+    Vector rightAxis = tr.lowerLeft - tr.lowerRight;
+    //cross product
+    Vector perpendicularToTriangle = leftAxis^rightAxis;
+    float angle = 45.0f;
+    Vector newLowerLeft = rotate(perpendicularToTriangle, angle, tr.lowerLeft);
+    Vector newUpperCenter = rotate(perpendicularToTriangle, angle, 
+            tr.upperCenter);
+    Vector newLowerRight = rotate(perpendicularToTriangle, angle, 
+            tr.lowerRight);
+    Triangle rotatedAroundLowerLeft(newLowerLeft, newUpperCenter, 
+            newLowerRight);
+
+    //rotatedAroundLowerLeft.draw();
+    
+    //translate
+    Triangle toTranslate = rotatedAroundLowerLeft;
+    Triangle translatedTr(translateTriangle(toTranslate, 
+                translationVec));
+    //translatedTr.draw();
+
+    ////rotate down
+    float downAngle = 45.0f;
+    Triangle toRotateDown = translatedTr;
+    Vector rotationDownAxis = toRotateDown.lowerLeft
+        - toRotateDown.lowerRight;
+    Vector rotatedDownUpperCenter = rotate(rotationDownAxis,
+            downAngle, toRotateDown.upperCenter
+            );
+    Triangle finalTriangle(toRotateDown.lowerLeft,
+            rotatedDownUpperCenter,
+            toRotateDown.lowerRight
+            );
+    finalTriangle.draw();
+
