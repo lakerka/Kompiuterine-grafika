@@ -55,6 +55,7 @@ static void makeIdentity(float matrix[]) {
     }
 }
 
+
 static void printMaxtrix(float mat[]) {
 
     for(int i = 0; i < 4; i++) {
@@ -181,6 +182,10 @@ static Quaternion fromAxisAndAngle (Vector v, float angleInDegrees) {
 }
 
 
+Vector animVectors[3];
+float  animAxisAngles[3];
+Vector curAnimVect;
+int degLeft = 0;
 
 class Camera {
 
@@ -202,6 +207,7 @@ class Camera {
         GLfloat hAngle;
         GLfloat vAngle;
 
+    public:
         Vector YAxis;
         Vector XAxis;
 
@@ -254,9 +260,6 @@ class Camera {
 
         float rotationMatrix[16];
 
-
-
-
         Vector multiply(Quaternion& q, const Vector& vec) {
             Vector vn(vec);
             vn.normalize();
@@ -295,6 +298,36 @@ class Camera {
         }
 
 
+        void rotateAroundAxis(Vector& v, float angle) {
+
+            v.normalize();
+
+            //gauname posukius
+            Quaternion q1 = fromAxisAndAngle (v, angle);
+            q1.normalize();
+            Quaternion q = q1;
+            q.normalize();
+            rotor = rotor * q;
+            rotor = rotor.normalize();
+            toMatrix (rotationMatrix, rotor);
+
+            Quaternion _q = q.conjugate();
+            XAxis.set(multiply(_q, XAxis));
+            XAxis.normalize();
+            YAxis.set(multiply(_q, YAxis));
+            YAxis.normalize();
+
+
+                for(int i = 0; i < 3; i++) {
+                    Vector rotated = rotate(v,
+                            -angle, animVectors[i]);     
+                    rotated.normalize();
+                    animVectors[i].set(rotated);
+                }
+
+            glutPostRedisplay ();
+        
+        }
 
         void performTransformations() {
 
@@ -323,6 +356,9 @@ class Camera {
             XAxis.normalize();
             YAxis.normalize();
 
+            cout << "X axis: " << XAxis << endl;
+            cout << "Y axis: " << YAxis << endl;
+
             //gauname posukius
             Quaternion q1 = fromAxisAndAngle (YAxis, hAngle);
             q1.normalize();
@@ -334,16 +370,19 @@ class Camera {
             //vienu metu galime pasukti tik apie x arba y axi
 
 
-            ////Vector rotate(Vector axis, float angle, Vector vectorToRotate) {
-            //if (hAngle > 0) {
-            //XAxis.set(rotate(YAxis, hAngle, XAxis));
-            //}else if (vAngle > 0) {
-            //YAxis.set(rotate(XAxis, vAngle, YAxis));
-            //}
+            //Vector rotate(Vector axis, float angle, Vector vectorToRotate) {
+            if (hAngle > 0) {
+            XAxis.set(rotate(YAxis, -hAngle, XAxis));
+            }else if (vAngle > 0) {
+            YAxis.set(rotate(XAxis, -vAngle, YAxis));
+            }
 
-            //cout << "====================" << endl;
-            //cout << "X asis: " << XAxis << endl;
-            //cout << "Y asis: " << YAxis << endl;
+
+
+            XAxis.normalize();
+            YAxis.normalize();
+
+
             //posukius galime sujungti tiesiog sudaungindami kvaternijonus
             Quaternion q = q1*q2;
             q.normalize();
@@ -351,11 +390,6 @@ class Camera {
             rotor = rotor.normalize();
             toMatrix (rotationMatrix, rotor);
 
-            Quaternion _q = q.conjugate();
-            XAxis.set(multiply(_q, XAxis));
-            XAxis.normalize();
-            YAxis.set(multiply(_q, YAxis));
-            YAxis.normalize();
 
 
             this->hAngle = 0;
@@ -404,10 +438,73 @@ static Camera* camera = new Camera(
         new Vector(0.0, 1.0, 0.0));
 
 
+
+void animation(int value) {
+
+    if (degLeft > 0) {
+        camera->rotateAroundAxis(curAnimVect, 1.0);
+        degLeft -= 1;
+        glutTimerFunc(20, animation, 0);
+        glutPostRedisplay();
+    }
+}
+
+void drawAxis(Vector& v, float lineLen) {
+
+    Vector normalizedVect(v);
+    normalizedVect.normalize();
+    Vector arrow(normalizedVect*lineLen);
+    Vector oppositeDirArrow(normalizedVect*-1*lineLen);
+
+    glBegin(GL_LINES);
+    glVertex3f(oppositeDirArrow.x, oppositeDirArrow.y, oppositeDirArrow.z);
+    glVertex3f(arrow.x, arrow.y, arrow.z);
+    glEnd();
+}
+
+
+
+void drawRotationAxis() {
+
+    float lineLen = 100;
+    glLineWidth(5.0f);
+
+    float rgbColors[][3] = {
+        {green},
+        {red},
+        {cayan}
+    
+    };
+
+    for(int i = 0; i < 3; i++) {
+        glColor3f(rgbColors[i][0], rgbColors[i][1], rgbColors[i][2]);
+        drawAxis(animVectors[i], lineLen);
+    }
+}
+
+
+void setCurAnim(Vector& v, int angle) {
+
+    curAnimVect.set(v);
+    degLeft  = angle < 0 ? angle + 360 : angle;
+}
+
 void keyboardEventsHandler( unsigned char key, int x, int y ) {
+
+    int animInd = -1;
 
     switch ( key ) {
 
+        //------------ ROTATION AROUND AXIS ----------------//
+        case 'i':
+            animInd = 0;
+            break;
+        case 'j':
+            animInd = 1;
+            break;
+        case 'l':
+            animInd = 2;
+            break;
         //------------ ZOOM ----------------//
         case '+':
             camera->zoomBy(ZOOM_CAMERA_BY);
@@ -415,8 +512,7 @@ void keyboardEventsHandler( unsigned char key, int x, int y ) {
         case '-':
             camera->zoomBy(-ZOOM_CAMERA_BY);
             break;
-
-            //------------ ROTATION ----------------//
+        
         case '4':
             camera->rotateBy(LEFT, ROTATE_CAMERA_BY);
             break;
@@ -433,6 +529,10 @@ void keyboardEventsHandler( unsigned char key, int x, int y ) {
         case '\e':
             exit(1);
             break;
+    }
+    if (animInd > -1) {
+        setCurAnim(animVectors[animInd], animAxisAngles[animInd]);
+        animation(0);
     }
 }
 
@@ -455,10 +555,7 @@ void mouseEventsHandler(int button, int state, int x, int y) {
                 camera->zoomBy(-ZOOM_CAMERA_BY);
                 break;
         }
-        //printf("Scroll %s At %d %d\n", (button == 3) ? "Up" : "Down", x, y);
     }else{  
-        // normal button event
-        //printf("Button %s At %d %d\n", (state == GLUT_DOWN) ? "Down" : "Up", x, y);
     }
 }
 
@@ -481,6 +578,30 @@ bool isTriangleDrawn(Triangle& t) {
 
 float zOffset = 0.0;
 
+void drawWirePentagon() {
+
+    int v;
+    float ang;
+    float vertexAngle = degToRad(360.0)/5.0;  
+    float angleOffset = degToRad(54.0);
+
+    glPushMatrix();
+
+    glLineWidth(5.0f);
+
+    glRotatef(36.0, 0.0, 0.0, 1.0);
+    glBegin (GL_LINE_LOOP);
+    glColor3f(red);
+    for (v = 0; v < 5; v++)  {                  
+        ang = v * vertexAngle - angleOffset;
+        glVertex3f(cos(ang), sin(ang), -2.48);
+    }
+    glEnd();
+    glPopMatrix();
+}
+
+
+
 void drawPentagon() {
 
     glColor3f(darkPurple);
@@ -495,7 +616,6 @@ void drawPentagon() {
         ang = v * vertexAngle - angleOffset;
         glVertex2f(cos(ang), sin(ang));
     }
- 
     glEnd();
 }
 
@@ -640,6 +760,7 @@ void drawHalf() {
 }
 
 #define DEBUG2 0
+#define DEBUG3 0
 
 void draw() {
 
@@ -684,6 +805,31 @@ void draw() {
 #endif
 
 
+#if DEBUG3
+    
+    float lineLen = 30.0f;
+
+    glLineWidth(20.0f);
+
+    glBegin(GL_LINES);
+    glColor3f(green);
+    glVertex3f(0.0,0.0, 0.0);
+    glVertex3f(lineLen,0.0,0.0);
+    glEnd();
+
+    glBegin(GL_LINES);
+    glColor3f(red);
+    glVertex3f(0.0,0.0, 0.0);
+    glVertex3f(0.0, lineLen,0.0);
+    glEnd();
+
+
+    glBegin(GL_LINES);
+    glColor3f(cayan);
+    glVertex3f(0.0,0.0, 0.0);
+    glVertex3f(0.0,0.0, lineLen);
+    glEnd();
+#endif
 
     glPushMatrix();
     glRotatef(180.0, 1.0, 0.0, 0.0);
@@ -703,7 +849,37 @@ void display() {
     glClearColor (white,  0);
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    drawWirePentagon();
+
+
+
     glMultMatrixf (camera->rotationMatrix);
+
+    drawRotationAxis();
+    //float lineLen = 40.0;
+    ////glLineWidth(7.0f);
+
+    //glColor3f(green);
+    //glBegin(GL_LINES);
+    //glVertex3f(0.0,0.0,0.0);
+    //glVertex3f(camera->XAxis.x*lineLen,
+            //camera->XAxis.y*lineLen,
+            //camera->XAxis.z*lineLen);
+    //glEnd();
+
+    //glColor3f(red);
+    //glBegin(GL_LINES);
+    //glVertex3f(0.0,0.0,0.0);
+    //glVertex3f(camera->YAxis.x*lineLen,
+            //camera->YAxis.y*lineLen,
+            //camera->YAxis.z*lineLen);
+    //glEnd();
+
+    //glColor3f(cayan);
+    //glBegin(GL_LINES);
+    //glVertex3f(0.0,0.0,0.0);
+    //glVertex3f(0.0,0.0, lineLen);
+    //glEnd();
 
     draw();
 
@@ -726,6 +902,60 @@ void initGL() {
     glEnable (GL_DEPTH_TEST);
 }
 
+void initAnimVectors() {
+
+
+    for(int i = 0; i < 3; i++) {
+
+        int animAngle;
+        Vector animAxis;
+        float axisAngleInRad; 
+
+        switch(i) {
+            float x;
+            float y;
+            float z;
+            case 0:
+                animAngle = 72;
+                animAxis.set(0.0f, 0.0f, 1.0f);
+                break;
+            case 1:
+                //animAngle =360-2*90;
+                //axisAngleInRad = degToRad(36);
+                //animAxis.set(cos(axisAngleInRad), sin(axisAngleInRad), 0.0f);
+                animAngle = 120;
+                animAxis.set(1, 0, 0);
+                animAxis.set(rotate(
+                            Vector(0.0, 0.0, 1.0), 
+                            54, 
+                            animAxis));
+                animAxis.set(rotate(
+                            Vector(-animAxis.y, animAxis.x, 0), 
+                            54, 
+                            animAxis));
+                //animAxis.set(animAxis.x, animAxis.y, animAxis.z);
+                break;
+            case 2:
+                //animAngle =  360-2*90 ;
+                //axisAngleInRad = degToRad(36*3);
+                //animAxis.set(cos(axisAngleInRad), sin(axisAngleInRad), 0.0f);
+
+                animAngle = 180;
+                animAxis.set(0, 1, 0);
+                animAxis.set(rotate(
+                            Vector(1.0, 0.0, 0.0), 
+                            //-72 + 0, 
+                            -60,
+                            animAxis));
+                break;
+        }
+    
+        animAxisAngles[i] =  animAngle;
+        animVectors[i].set(animAxis);
+    }
+
+}
+
 
 int main( int argc, char** argv ) {
 
@@ -739,7 +969,9 @@ int main( int argc, char** argv ) {
     glutKeyboardFunc(keyboardEventsHandler);
     glutDisplayFunc(display);       
     glutReshapeFunc(reshape);
+    //glutIdleFunc(animation);
     initGL();                       
+    initAnimVectors();
     glutMainLoop();                 
     return 0;
 }

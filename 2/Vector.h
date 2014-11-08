@@ -88,7 +88,8 @@ class Vector {
             return x * v.x + y * v.y + z * v.z;
         }
 
-        Vector operator^ (const Vector& v) const {
+        Vector crossProduct (const Vector& v) const {
+
             return Vector (
                 y * v.z - z * v.y,
                 v.x * z - x * v.z,
