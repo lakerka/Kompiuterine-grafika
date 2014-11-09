@@ -713,8 +713,9 @@ void drawFace() {
     float pentagonDistToWall = sin(degToRad(54.0));
     drawPentagon();
 
-    float squaresDownAngle = 30.0f;
-    float trianglesDownAngle = squaresDownAngle * 1.20f;
+    float cof = 31.0/26.360390158f;
+    float squaresDownAngle = 31.770390158f;
+    float trianglesDownAngle = squaresDownAngle*cof;
 
     float squareSide = 2.0*sin(degToRad(36.0));
     drawSquares(pentagonDistToWall,  squareSide, squaresDownAngle);
@@ -731,7 +732,7 @@ void drawHalf() {
     drawFace();
     glPopMatrix();
 
-    float squaresDownAngle = 30.0f;
+    float squaresDownAngle = 31.770390158f;
     float squareSide = 2.0*sin(degToRad(36.0));
     float heightDiff = squareSide*sin(degToRad(squaresDownAngle));
     float dist = 2.41;
@@ -750,7 +751,8 @@ void drawHalf() {
 
         glRotatef(curAngle , 0.0 , 0.0 , 1.0);
         glTranslatef(0, pentagonDistToWall, 0.0f);
-        glRotatef(-squaresDownAngle*2 - 3.0, 1.0 , 0.0 , 0.0);
+        //rotate down
+        glRotatef(-2*squaresDownAngle, 1.0 , 0.0 , 0.0);
         glTranslatef(0, pentagonDistToWall, 0.0f);
         glTranslatef(0.0, 1.0, heightDiff);
         drawFace();
@@ -776,8 +778,7 @@ void draw() {
     //move sphere to center
     glPushMatrix();
 
-    
-    float sphereRadius = 4.9;
+    float sphereRadius = 4.86;
     glTranslatef(0.0, 0.0, sphereRadius/2);
 
     glPushMatrix();
@@ -875,13 +876,14 @@ void display() {
             //camera->YAxis.z*lineLen);
     //glEnd();
 
-    //glColor3f(cayan);
+    //glColor3f(magenta);
     //glBegin(GL_LINES);
-    //glVertex3f(0.0,0.0,0.0);
-    //glVertex3f(0.0,0.0, lineLen);
+    //glVertex3f(0.0,-30,0.0);
+    //glVertex3f(0.0,30.0, 0.0);
     //glEnd();
 
     draw();
+    //drawHalf();
 
     glutSwapBuffers();  
 }
@@ -915,37 +917,28 @@ void initAnimVectors() {
             float x;
             float y;
             float z;
+            //i
             case 0:
                 animAngle = 72;
                 animAxis.set(0.0f, 0.0f, 1.0f);
                 break;
+            //j
             case 1:
-                //animAngle =360-2*90;
-                //axisAngleInRad = degToRad(36);
-                //animAxis.set(cos(axisAngleInRad), sin(axisAngleInRad), 0.0f);
                 animAngle = 120;
-                animAxis.set(1, 0, 0);
+                animAxis.set(0, 1, 0);
                 animAxis.set(rotate(
-                            Vector(0.0, 0.0, 1.0), 
-                            54, 
+                            Vector(1.0, 0.0, 0.0), 
+                            53, 
                             animAxis));
-                animAxis.set(rotate(
-                            Vector(-animAxis.y, animAxis.x, 0), 
-                            54, 
-                            animAxis));
-                //animAxis.set(animAxis.x, animAxis.y, animAxis.z);
                 break;
+            //l
             case 2:
-                //animAngle =  360-2*90 ;
-                //axisAngleInRad = degToRad(36*3);
-                //animAxis.set(cos(axisAngleInRad), sin(axisAngleInRad), 0.0f);
-
                 animAngle = 180;
                 animAxis.set(0, 1, 0);
                 animAxis.set(rotate(
                             Vector(1.0, 0.0, 0.0), 
                             //-72 + 0, 
-                            -60,
+                            -58,
                             animAxis));
                 break;
         }
